@@ -1,0 +1,19 @@
+1FN (Primeira Forma Normal)
+Cada campo deve conter um único valor atômico, sem listas ou valores compostos.
+
+Exemplo:
+Na tabela Consulta_Procedimento, cada procedimento está em uma linha separada com seus atributos (id_consulta, id_procedimento, quantidade), sem agrupar vários procedimentos num único campo.
+
+2FN (Segunda Forma Normal)
+Todos os atributos não-chave devem depender da chave inteira, não apenas de parte dela.
+
+Exemplo:
+Na tabela Consulta_Procedimento, os campos quantidade dependem da chave composta (id_consulta, id_procedimento).
+
+Não se permite que um campo dependa apenas de uma parte da chave composta.
+
+3FN (Terceira Forma Normal)
+Não deve haver dependência transitiva entre atributos não-chave. Ou seja, atributos não-chave não podem depender de outros atributos não-chave.
+
+Exemplo:
+Na tabela Consulta, guardamos apenas o id_medico e id_paciente. Os nomes e detalhes desses pacientes e médicos ficam nas tabelas Paciente e Medico respectivamente, evitando redundância.

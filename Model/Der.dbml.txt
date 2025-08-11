@@ -1,0 +1,79 @@
+Table Paciente {
+
+  PacienteID int [pk, increment]
+
+  Nome varchar(100)
+
+  DataNascimento date
+
+  Telefone varchar(20)
+
+  Email varchar(100)
+
+  Endereco varchar(200)
+
+}
+
+
+
+Table Especialidade {
+
+  EspecialidadeID int [pk, increment]
+
+  Descricao varchar(100)
+
+}
+
+
+
+Table Medico {
+
+  MedicoID int [pk, increment]
+
+  Nome varchar(100)
+
+  CRM varchar(20)
+
+  Telefone varchar(20)
+
+  Email varchar(100)
+
+  EspecialidadeID int [ref: > Especialidade.EspecialidadeID]
+
+}
+
+
+
+Table Consulta {
+
+  ConsultaID int [pk, increment]
+
+  DataConsulta datetime
+
+  Status varchar(50)  // Ex: Agendada, Realizada, Cancelada
+
+  PacienteID int [ref: > Paciente.PacienteID]
+
+  MedicoID int [ref: > Medico.MedicoID]
+
+  Observações text
+
+}
+
+
+
+Table Pagamento {
+
+  PagamentoID int [pk, increment]
+
+  ConsultaID int [ref: > Consulta.ConsultaID]
+
+  Valor decimal(10,2)
+
+  DataPagamento date
+
+  MetodoPagamento varchar(50)  // Ex: Cartão, Dinheiro, Transferência
+
+  Status varchar(50)  // Ex: Pago, Pendente, Cancelado
+
+}

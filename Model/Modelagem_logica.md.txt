@@ -1,0 +1,72 @@
+## 1. Introdução
+
+Este documento apresenta a modelagem lógica do banco de dados para o sistema de uma clínica médica, detalhando as tabelas, chaves primárias e estrangeiras, relacionamentos e decisões adotadas para garantir a integridade e eficiência do sistema.
+
+---
+
+## 2. Tabelas e Atributos
+
+### 2.1 Tabela: Paciente
+
+| Atributo         | Tipo         | Descrição                 | Restrição           |
+| ---------------- | ------------ | ------------------------- | ------------------- |
+| id\_paciente     | INT          | Identificador único       | Chave Primária (PK) |
+| nome             | VARCHAR(100) | Nome completo do paciente | NOT NULL            |
+| data\_nascimento | DATE         | Data de nascimento        | NOT NULL            |
+| telefone         | VARCHAR(20)  | Telefone de contato       |                     |
+| email            | VARCHAR(150) | Email do paciente         | UNIQUE              |
+
+---
+
+### 2.2 Tabela: Medico
+
+| Atributo      | Tipo         | Descrição                   | Restrição           |
+| ------------- | ------------ | --------------------------- | ------------------- |
+| id\_medico    | INT          | Identificador único         | Chave Primária (PK) |
+| nome          | VARCHAR(100) | Nome completo do médico     | NOT NULL            |
+| especialidade | VARCHAR(100) | Especialidade médica        | NOT NULL            |
+| crm           | VARCHAR(20)  | Registro profissional (CRM) | UNIQUE, NOT NULL    |
+| telefone      | VARCHAR(20)  | Telefone de contato         |                     |
+
+---
+
+### 2.3 Tabela: Consulta
+
+| Atributo     | Tipo        | Descrição                                           | Restrição              |
+| ------------ | ----------- | --------------------------------------------------- | ---------------------- |
+| id\_consulta | INT         | Identificador único                                 | Chave Primária (PK)    |
+| id\_paciente | INT         | Referência ao paciente                              | Chave Estrangeira (FK) |
+| id\_medico   | INT         | Referência ao médico                                | Chave Estrangeira (FK) |
+| data\_hora   | DATETIME    | Data e hora da consulta                             | NOT NULL               |
+| status       | VARCHAR(20) | Status da consulta (agendada, realizada, cancelada) | NOT NULL               |
+
+---
+
+### 2.4 Tabela: Procedimento
+
+| Atributo         | Tipo          | Descrição             | Restrição           |
+| ---------------- | ------------- | --------------------- | ------------------- |
+| id\_procedimento | INT           | Identificador único   | Chave Primária (PK) |
+| nome             | VARCHAR(100)  | Nome do procedimento  | NOT NULL            |
+| descricao        | TEXT          | Descrição detalhada   |                     |
+| preco            | DECIMAL(10,2) | Preço do procedimento | NOT NULL            |
+
+---
+
+### 2.5 Tabela: Consulta_Procedimento
+
+| Atributo         | Tipo | Descrição                  | Restrição              |
+| ---------------- | ---- | -------------------------- | ---------------------- |
+| id               | INT  | Identificador único        | Chave Primária (PK)    |
+| id\_consulta     | INT  | Referência à consulta      | Chave Estrangeira (FK) |
+| id\_procedimento | INT  | Referência ao procedimento | Chave Estrangeira (FK) |
+| quantidade       | INT  | Quantidade do procedimento | NOT NULL               |
+
+---
+
+## 3. Chaves e Relacionamentos
+
+* Paciente possui chave primária id_paciente.
+* Medico possui chave primária id_medico.
+* Consulta referencia o paciente (id_paciente) e o médico (id_medico) via chaves estrangeiras, representando a relação entre quem marca a consulta e quem atende.
+* Consulta_Procedimento cria um relacionamento muitos-para-muitos entre Consulta e Procedimento, pois uma consulta pode ter múltiplos procedimentos e cada procedimento pode ocorrer em várias consultas.

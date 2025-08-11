@@ -1,0 +1,52 @@
+DROP DATABASE IF EXISTS Clinica_medica;
+CREATE DATABASE Clinica_medicaJu;
+USE Clinica_medicaJU;
+CREATE TABLE `Paciente` (
+  `PacienteID` int PRIMARY KEY AUTO_INCREMENT,
+  `Nome` varchar(100),
+  `DataNascimento` date,
+  `Telefone` varchar(20),
+  `Email` varchar(100),
+  `Endereco` varchar(200)
+);
+
+CREATE TABLE `Especialidade` (
+  `EspecialidadeID` int PRIMARY KEY AUTO_INCREMENT,
+  `Descricao` varchar(100)
+);
+
+CREATE TABLE `Medico` (
+  `MedicoID` int PRIMARY KEY AUTO_INCREMENT,
+  `Nome` varchar(100),
+  `CRM` varchar(20),
+  `Telefone` varchar(20),
+  `Email` varchar(100),
+  `EspecialidadeID` int
+);
+
+CREATE TABLE `Consulta` (
+  `ConsultaID` int PRIMARY KEY AUTO_INCREMENT,
+  `DataConsulta` datetime,
+  `Status` varchar(50),
+  `PacienteID` int,
+  `MedicoID` int,
+  `Observações` text
+);
+
+CREATE TABLE `Pagamento` (
+  `PagamentoID` int PRIMARY KEY AUTO_INCREMENT,
+  `ConsultaID` int,
+  `Valor` decimal(10,2),
+  `DataPagamento` date,
+  `MetodoPagamento` varchar(50),
+  `Status` varchar(50)
+);
+
+ALTER TABLE `Medico` ADD FOREIGN KEY (`EspecialidadeID`) REFERENCES `Especialidade` (`EspecialidadeID`);
+
+ALTER TABLE `Consulta` ADD FOREIGN KEY (`PacienteID`) REFERENCES `Paciente` (`PacienteID`);
+
+ALTER TABLE `Consulta` ADD FOREIGN KEY (`MedicoID`) REFERENCES `Medico` (`MedicoID`);
+
+ALTER TABLE `Pagamento` ADD FOREIGN KEY (`ConsultaID`) REFERENCES `Consulta` (`ConsultaID`);
+

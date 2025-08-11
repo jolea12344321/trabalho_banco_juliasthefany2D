@@ -1,0 +1,82 @@
+USE `Clinica_medicaJU`;
+
+SET FOREIGN_KEY_CHECKS = 0;
+
+DROP TABLE IF EXISTS `Pagamento`;
+DROP TABLE IF EXISTS `Consulta`;
+DROP TABLE IF EXISTS `Medico`;
+DROP TABLE IF EXISTS `Especialidade`;
+DROP TABLE IF EXISTS `Paciente`;
+
+CREATE TABLE `Paciente` (
+  `PacienteID` INT PRIMARY KEY AUTO_INCREMENT,
+  `Nome` VARCHAR(100) NOT NULL,
+  `DataNascimento` DATE,
+  `Telefone` VARCHAR(20),
+  `Email` VARCHAR(100),
+  `Endereco` VARCHAR(200)
+);
+
+CREATE TABLE `Especialidade` (
+  `EspecialidadeID` INT PRIMARY KEY AUTO_INCREMENT,
+  `Descricao` VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE `Medico` (
+  `MedicoID` INT PRIMARY KEY AUTO_INCREMENT,
+  `Nome` VARCHAR(100) NOT NULL,
+  `CRM` VARCHAR(20) UNIQUE NOT NULL,
+  `Telefone` VARCHAR(20),
+  `Email` VARCHAR(100),
+  `EspecialidadeID` INT,
+  FOREIGN KEY (`EspecialidadeID`) REFERENCES `Especialidade`(`EspecialidadeID`) ON DELETE SET NULL
+);
+
+CREATE TABLE `Consulta` (
+  `ConsultaID` INT PRIMARY KEY AUTO_INCREMENT,
+  `DataConsulta` DATETIME NOT NULL,
+  `Status` VARCHAR(50) NOT NULL,
+  `PacienteID` INT NOT NULL,
+  `MedicoID` INT NOT NULL,
+  `Observacoes` TEXT,
+  FOREIGN KEY (`PacienteID`) REFERENCES `Paciente`(`PacienteID`) ON DELETE CASCADE,
+  FOREIGN KEY (`MedicoID`) REFERENCES `Medico`(`MedicoID`) ON DELETE CASCADE
+);
+
+CREATE TABLE `Pagamento` (
+  `PagamentoID` INT PRIMARY KEY AUTO_INCREMENT,
+  `ConsultaID` INT NOT NULL,
+  `Valor` DECIMAL(10,2) NOT NULL,
+  `DataPagamento` DATE NOT NULL,
+  `MetodoPagamento` VARCHAR(50) NOT NULL,
+  `Status` VARCHAR(50) NOT NULL,
+  FOREIGN KEY (`ConsultaID`) REFERENCES `Consulta`(`ConsultaID`) ON DELETE CASCADE
+);
+
+CREATE INDEX `idx_consulta_paciente` ON `Consulta`(`PacienteID`);
+CREATE INDEX `idx_consulta_medico` ON `Consulta`(`MedicoID`);
+CREATE INDEX `idx_pagamento_consulta` ON `Pagamento`(`ConsultaID`);
+
+INSERT INTO `Especialidade` (`Descricao`) VALUES
+('Cardiologia'),
+('Ortopedia'),
+('Dermatologia');
+
+INSERT INTO `Medico` (`Nome`, `CRM`, `Telefone`, `Email`, `EspecialidadeID`) VALUES
+('Dr. Carlos Silva', '12345-SP', '(11)98888-1111', 'carlos.silva@clinica.com', 1),
+('Dra. Ana Souza', '67890-RJ', '(21)97777-2222', 'ana.souza@clinica.com', 2),
+('Dr. João Pereira', '54321-MG', '(31)96666-3333', 'joao.pereira@clinica.com', 3);
+
+INSERT INTO `Paciente` (`Nome`, `DataNascimento`, `Telefone`, `Email`, `Endereco`) VALUES
+('Maria Oliveira', '1985-04-12', '(11)99999-4444', 'maria.oliveira@gmail.com', 'Rua das Flores, 123, São Paulo'),
+('Pedro Santos', '1990-08-23', '(21)98888-5555', 'pedro.santos@gmail.com', 'Av. Brasil, 456, Rio de Janeiro');
+
+INSERT INTO `Consulta` (`DataConsulta`, `Status`, `PacienteID`, `MedicoID`, `Observacoes`) VALUES
+('2025-08-10 14:00:00', 'Agendada', 1, 1, 'Consulta inicial cardiológica'),
+('2025-08-11 10:30:00', 'Agendada', 2, 2, 'Revisão de lesão no joelho');
+
+INSERT INTO Pagamento (ConsultaID, Valor, DataPagamento, MetodoPagamento, Status) VALUES
+(1, 200.00, '2025-08-05', 'Cartão', 'Pago'),
+(2, 150.00, '2025-08-11', 'Dinheiro', 'Pendente');
+
+SET FOREIGN_KEY_CHECKS = 1;
