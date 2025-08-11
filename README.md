@@ -48,6 +48,5 @@ AND c.Status = 'Agendada'
 ORDER BY c.DataConsulta ASC;
 
 <img width="1007" height="413" alt="Captura de tela 2025-08-11 002819" src="https://github.com/user-attachments/assets/27f39462-68d0-4d1c-865a-e71bb33a4028" /> 
-## Autora 
 Julia Sthefany 2D (N20) julia.santos.assis@escola.pr.gov.br
 
