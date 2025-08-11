@@ -1,4 +1,5 @@
 ## trabalho_banco_juliasthefany2D
+
 Clínica Médica Online
 Tema do Projeto
 Banco de dados para gestão de clínica médica, organizando informações de pacientes, médicos, consultas, especialidades e prontuários.
@@ -46,4 +47,7 @@ WHERE c.DataConsulta BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 7 DAY)
 AND c.Status = 'Agendada'
 ORDER BY c.DataConsulta ASC;
 
-<img width="1007" height="413" alt="Captura de tela 2025-08-11 002819" src="https://github.com/user-attachments/assets/27f39462-68d0-4d1c-865a-e71bb33a4028" />
+<img width="1007" height="413" alt="Captura de tela 2025-08-11 002819" src="https://github.com/user-attachments/assets/27f39462-68d0-4d1c-865a-e71bb33a4028" /> 
+## Autora 
+Julia Sthefany 2D (N20) julia.santos.assis@escola.pr.gov.br
+
